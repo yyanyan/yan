@@ -1,0 +1,15 @@
+
+void setup() {
+  pinMode (3, OUTPUT);// Not necessary but good practice for clarity
+  pinMode (2, INPUT); // Not necessary but good practice for clarity
+}
+
+// Must always have a loop() function, even if there is nothing in it
+void loop() {
+
+  if (HIGH == digitalRead(2) ) {
+    analogWrite(3, 100);    // this is the slowest my motor would still turn
+  } else {
+    analogWrite(3, 0);    // motor off
+  }
+}
