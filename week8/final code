@@ -43,7 +43,6 @@ void loop() {
       myservo.write(positions[buttonPushCounter % 6]);
       delay (100);
       // Delay a little bit to avoid bouncing
-      delay(50);
     }
     // save the current state as the last state,
     //for next time through the loop
