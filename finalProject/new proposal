@@ -10,11 +10,11 @@ There are two parts: a screen and a hand-controled device. The pattern will show
 and the device is for controling when and how the pattern change(based on ardunio). 
 1. when hand touch/hold the device, no pattern shows up
 2. when hand starts moving, pattern appears
-3. when hand keeps moving, depands on the code setting, pattern changed
+3. when hand keeps moving, depands on the code setting(x y number), pattern changed
 4. stop moving, pattern will stay
 5. after x seconds, pattern will disappear
 
 Add-on task:
 1 create more patterns/explore different ways to show the watercolor drops
-2 change the way to control the devices(look at the photos in the folder)
+2 add z into the code to make more unexpected moves
 3 add a force sensor
