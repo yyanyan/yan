@@ -3,7 +3,8 @@ Project Name: “Sfumato” prototype
 Story behind the project: Look at the pdf in the "finalProject" folder
 
 Project Subject:
-Use to processing and adruino to create watercolor drops color/shape changing on the screen by changing XYZ sensor.
+Use to processing and adruino to create watercolor drops color/shape changing on the screen by changing XYZ sensor. 
+Use bluetooth to connect two parts of devices.
 
 Instruction: 
 There are two parts: a screen and a hand-controled device. The pattern will show on the screen(based on processing)
