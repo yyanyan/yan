@@ -1,0 +1,56 @@
+const int trigPin = 12;
+const int echoPin = 11;
+
+long duration = 0;
+int distance = 0;
+int inByte = 0;         // incoming serial byte
+int secondSensor = 0;   // second analog sensor
+int thirdSensor = 0;    // digital sensor
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  while (!Serial) {
+    ;   // wait for serial port to connect. Needed for Leonardo only
+  }
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  establishContact();  // send a byte to establish contact until receiver responds
+}
+
+void loop() {
+  // if we get a valid byte, read analog ins:
+  if (Serial.available() > 0) {
+    // get incoming byte:
+    inByte = Serial.read();
+   Serial.write(distance);
+   Serial.write(secondSensor);
+   Serial.write(thirdSensor);
+  }
+   
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+   if (duration > 16000) duration = 32000;
+   if (distance > 255) distance = 255;
+
+  //Serial.print("DURATION:  ");
+   //Serial.print(duration);
+   //Serial.print("    DISTANCE:  ");
+   //Serial.println(distance);
+
+  delay(100);
+}
+
+void establishContact() {
+  while (Serial.available() <= 0) {
+    Serial.print('A');   // send a capital A
+    delay(300);
+  }
+}
