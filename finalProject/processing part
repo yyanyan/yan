@@ -1,0 +1,127 @@
+
+// Processing sketch to run with this example:
+
+// This example code is in the public domain.
+
+import processing.serial.*;
+
+int bgcolor = 255;           // Background color
+int fgcolor = 0;           // Fill color
+Serial myPort;                       // The serial port
+int[] serialInArray = new int[3];    // Where we'll put what we receive
+int serialCount = 0;                 // A count of how many bytes we receive
+int xpos, ypos;                 // Starting position of the ball
+boolean firstContact = false;        // Whether we've heard from the microcontroller
+PImage image1, image2, image3, image4, image5, image6, image7, image8, image9;
+
+
+void setup() {
+  //fullScreen();
+  size(1880, 1000);  // Stage size
+  noStroke();      // No border on the next thing drawn
+
+  // Set the starting position of the ball (middle of the stage)
+  xpos = width/2;
+  ypos = height/2;
+
+  // Print a list of the serial ports for debugging purposes
+  // if using Processing 2.1 or later, use Serial.printArray()
+  //println(Serial.list());
+
+ 
+  String portName = "COM3";
+  // println(Serial.list());
+  myPort = new Serial(this, portName, 9600);
+
+  image1 = loadImage("1.png");
+  image2 = loadImage("2.png");
+  image3 = loadImage("3.png");
+  image4 = loadImage("4.png");
+  image5 = loadImage("5.png");
+  image6 = loadImage("6.png");
+  image7 = loadImage("7.png");
+  image8 = loadImage("8.png");
+  image9 = loadImage("9.png");
+}
+
+void draw() {
+  background(bgcolor);
+  fill(fgcolor);
+  // Draw the shape
+  // ellipse(xpos, ypos, 20, 20);
+  if ((xpos > 5) && (xpos <= 8)) {
+    image(image1, width/2, height/2);
+    imageMode(CENTER);
+  }
+  if ((xpos > 8) && (xpos <= 11)) {
+    image(image2, width/2, height/2);
+    imageMode(CENTER);
+  }
+  if ((xpos > 11) && (xpos <= 14)) {
+    image(image3, width/2, height/2);
+    imageMode(CENTER);
+  }
+  if ((xpos > 14) && (xpos <= 17)) {
+    image(image4, width/2, height/2);
+    imageMode(CENTER);
+  }
+  if ((xpos > 17) && (xpos <= 20)) {
+    image(image5, width/2, height/2);
+    imageMode(CENTER);
+  }
+  if ((xpos > 20) && (xpos <= 23)) {
+    image(image6, width/2, height/2);
+    imageMode(CENTER);
+  } 
+  if ((xpos > 23) && (xpos <= 26)) {
+    image(image7, width/2, height/2);
+    imageMode(CENTER);
+  } 
+  if ((xpos > 26) && (xpos <= 29)) {
+    image(image8, width/2, height/2);
+    imageMode(CENTER);
+  } 
+  if ((xpos > 29) && (xpos <= 32)) {
+    image(image9, width/2, height/2);
+    imageMode(CENTER);
+  }
+}
+void serialEvent(Serial myPort) {
+  // read a byte from the serial port:
+  int inByte = myPort.read();
+  // if this is the first byte received, and it's an A,
+  // clear the serial buffer and note that you've
+  // had first contact from the microcontroller.
+  // Otherwise, add the incoming byte to the array:
+  if (firstContact == false) {
+    if (inByte == 'A') {
+      myPort.clear();          // clear the serial port buffer
+      firstContact = true;     // you've had first contact from the microcontroller
+      myPort.write('A');       // ask for more
+    }
+  } else {
+    // Add the latest byte from the serial port to array:
+    serialInArray[serialCount] = inByte;
+    serialCount++;
+
+    // If we have 3 bytes:
+    if (serialCount > 2 ) {
+      if ((serialInArray[0] > 4) && (serialInArray[0] < 254)) {
+        xpos = serialInArray[0];
+        ypos = serialInArray[0];
+      }
+
+      // xpos = serialInArray[0];
+      // ypos = serialInArray[0];
+      fgcolor = serialInArray[2];
+
+      // print the values (for debugging purposes only):
+      println(xpos + "\t" + ypos + "\t" + fgcolor);
+
+      // Send a capital A to request new sensor readings:
+      myPort.write('A');
+      // Reset serialCount:
+      serialCount = 0;
+    }
+  }
+}
