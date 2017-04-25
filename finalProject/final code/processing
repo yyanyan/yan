@@ -1,0 +1,112 @@
+
+// Processing sketch to run with this example:
+
+// This example code is in the public do.
+
+import processing.serial.*;
+
+int bgcolor = 0;           // Background color
+int fgcolor = 0;           // Fill color
+Serial myPort;                       // The serial port
+int lastdata=0;
+int xpos, ypos;                 // Starting position of the ball
+boolean firstContact = false;        // Whether we've heard from the microcontroller
+PImage image1, image2, image3, image4, image5, image6, image7, image8, image9, image10;
+
+
+void setup() {
+  fullScreen();
+  //size(1280, 720);  // Stage size
+  noStroke();      // No border on the next thing drawn
+
+  // Set the starting position of the ball (middle of the stage)
+  xpos = width/2;
+  ypos = height/2;
+
+  // Print a list of the serial ports for debugging purposes
+  // if using Processing 2.1 or later, use Serial.printArray()
+  println(Serial.list());
+
+  // I know that the first port in the serial list on my mac
+  // is always my  FTDI adaptor, so I open Serial.list()[0].
+  // On Windows machines, this generally opens COM1.
+  // Open whatever port is the one you're using.
+  String portName = Serial.list()[0];
+  myPort = new Serial(this, portName, 9600);
+
+  image1 = loadImage("1.jpg");
+  image2 = loadImage("2.jpg");
+  image3 = loadImage("3.jpg");
+  image4 = loadImage("4.jpg");
+  image5 = loadImage("5.jpg");
+  image6 = loadImage("6.jpg");
+  image7 = loadImage("7.jpg");
+  image8 = loadImage("8.jpg");
+  image9 = loadImage("9.jpg");
+  image10 = loadImage("10.jpg");
+}
+
+void draw() {
+  background(bgcolor);
+  fill(fgcolor);
+  // Draw the shape
+  // ellipse(xpos, ypos, 20, 20);
+  //if ((xpos > 340) && (xpos <= 350)) {
+  switch(lastdata)
+  {
+  case 1:
+    image(image1, width/2, height/2);
+    break;
+  case 2:
+    image(image2, width/2, height/2);
+    break;
+  case 3:  
+    image(image3, width/2, height/2);
+    break;
+  case 4:  
+    image(image4, width/2, height/2);
+    break;
+  case 5:  
+    image(image5, width/2, height/2);
+    break;
+  case 6:  
+    image(image6, width/2, height/2);
+    break;
+  case 7:  
+    image(image7, width/2, height/2);
+    break;
+  case 8:  
+    image(image8, width/2, height/2);
+    break;
+  case 9:  
+    image(image9, width/2, height/2);
+    break;
+  case 10:  
+    image(image10, width/2, height/2);
+    break;
+  default:
+    break;
+  }
+  imageMode(CENTER);
+}
+void serialEvent(Serial myPort) {
+  // read a byte from the serial port:
+  int inByte = myPort.read();
+  if (firstContact == false) {
+    if (inByte == 'R') {
+      myPort.clear();         
+      firstContact = true;     
+      myPort.write('K');
+    }
+  } else {
+    // Add the latest byte from the serial port to array:
+    if (inByte>0&&inByte<101)
+    {
+      lastdata = inByte;
+    } else
+    {
+      lastdata=0;
+    }
+    myPort.write('K');
+  }
+}
