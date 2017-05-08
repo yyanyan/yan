@@ -24,7 +24,7 @@ Final piece:
 When I was using the dictance sensor, I found that it's really hard to find a good interface to let people enjoy the game.
 Therefore, I changed it to buttons and mirror box game. 
 1. when nobody press the buttons, screen will be black
-2. press the button ---> images shows up
+2. press the buttons ---> images show up
 3. use buttons to switch the images
 I got some help from my coding friend to make sure that there won't be any problems when I am doing the show. He helped me to refine
 the code. What I also learned from this class is that don't be shy to ask for help and people will be happy to help you.
